@@ -1,8 +1,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <iostream>
-
+#include "DIctionary.h"
 using namespace cv;
 using namespace std;
 
@@ -25,15 +24,14 @@ int main(int argc, char** argv)
 		cout << "Could not open or find the image" << std::endl;
 		return -1;
 	}
-	// We iterate over all pixels of the image
-
+	/*
 	for (int r = 0; r < image.rows; r++) {
 		cout << int(image.at<uchar>(r, image.cols / 2)) << ' ';
 	}
-
+	*/
 	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	imshow("Display window", image);                   // Show our image inside it.
 
-	waitKey(0);                                          // Wait for a keystroke in the window
+	waitKey(0);                                         
 	return 0;
 }
