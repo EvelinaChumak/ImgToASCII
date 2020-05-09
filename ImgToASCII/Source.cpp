@@ -7,67 +7,64 @@ using namespace cv;
 using namespace std;
 
 
-int main(int argc, char** argv)
+int main()
 {
+	
 	ofstream f("text.txt", ios_base::out);
-
-	if (argc != 2)
-	{
-		cout << " Usage: display_image ImageToLoadAndDisplay" << endl;
-		return -1;
-	}
-
+	
+	string s;
+	int scale;
+	cout << "Enter image title: ";
+	cin >> s;
+	cout << "Enter how many times to reduce the image: ";
+	cin >> scale;
 	Mat image;
-	image = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);   // Read the file
+	image = imread(s, CV_LOAD_IMAGE_GRAYSCALE);  
 
-	if (!image.data)                              // Check for invalid input
+	if (!image.data)                           
+		cout << "Could not open or find the image" << endl;
+	else 
+		cout << "Open text.txt" << endl;
+
+	for (int r = 0; r < image.rows - 5*scale; r = r + 5*scale)
 	{
-		cout << "Could not open or find the image" << std::endl;
-		return -1;
-	}
-	for (int r = 0; r < image.rows - 10; r=r + 10)
-	{
-		for (int c = 0; c < image.cols - 10; c = c + 10)
+		for (int c = 0; c < image.cols - 5*scale; c = c + 5*scale)
 		{
-			string s;
-			for (int i = r; i < r + 10; i = i+2)
+			int s = 0;
+			int k = 0;
+			for (int i = r; i < r + 5*scale; i = i + scale)
 			{
 				int rem = 0;
-				for (int j = c; j < c + 10; j = j+2)
+				for (int j = c; j < c + 5*scale; j = j + scale)
 				{
+					k++;
 					if (rem + int(image.at<uchar>(i, j)) > 127)
 					{
-						s = s + '1';
+						s = s + pow(2, k - 1);
 						rem = rem - (255 - int(image.at<uchar>(i, j)));
-					 }
+					}
 					else
 					{
-						s = s + '0';
 						rem = rem + int(image.at<uchar>(i, j));
 					}
 				}
 			}
 			auto it = dict.find(s);
 			if (it != dict.end())
-				f << (*it).second;
+				f << (*it).second << (*it).second;
 			else
 			{
-				auto z = dict.lower_bound(s);
-				f << (*z).second;
+				auto z1 = dict.lower_bound(s);
+				auto z2 = dict.upper_bound(s);
+				if ((*z2).first - s < s - (*z1).first)
+					f << (*z2).second << (*z2).second;
+				else f << (*z1).second << (*z1).second;
 			}
 		}
 		f << endl;
 	}
-	/*
-	for (int r = 0; r < image.rows; r++) {
-		cout << int(image.at<uchar>(r, image.cols / 2)) << ' ';
-	}
-	*/
 
 	f.close();
-	//namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
-	//imshow("Display window", image);                   // Show our image inside it.
-
-	//waitKey(0);                                         
+	system("pause");
 	return 0;
 }
