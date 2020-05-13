@@ -19,7 +19,7 @@ int main()
 	cout << "Enter how many times to reduce the image: ";
 	cin >> scale;
 	Mat image;
-	image = imread(s, CV_LOAD_IMAGE_GRAYSCALE);  
+	image = imread(s, CV_LOAD_IMAGE_GRAYSCALE);					//read image as grayscale
 
 	if (!image.data)                           
 		cout << "Could not open or find the image" << endl;
@@ -30,17 +30,17 @@ int main()
 	{
 		for (int c = 0; c < image.cols - 5*scale; c = c + 5*scale)
 		{
-			int s = 0;
+			int s = 0;											// for character encoding
 			int k = 0;
 			for (int i = r; i < r + 5*scale; i = i + scale)
 			{
-				int rem = 0;
+				int rem = 0;									// for exact definition of "black" or "white" pixel
 				for (int j = c; j < c + 5*scale; j = j + scale)
 				{
 					k++;
 					if (rem + int(image.at<uchar>(i, j)) > 127)
 					{
-						s = s + pow(2, k - 1);
+						s = s + pow(2, k - 1);					//looking for number that encoded the whole block
 						rem = rem - (255 - int(image.at<uchar>(i, j)));
 					}
 					else
@@ -49,14 +49,14 @@ int main()
 					}
 				}
 			}
-			auto it = dict.find(s);
-			if (it != dict.end())
+			auto it = dict.find(s);								//looking for an appropriate number int the dictionary
+			if (it != dict.end())								//an add a character to the text
 				f << (*it).second << (*it).second;
 			else
 			{
 				auto z1 = dict.lower_bound(s);
 				auto z2 = dict.upper_bound(s);
-				if ((*z2).first - s < s - (*z1).first)
+				if ((*z2).first - s < s - (*z1).first)			//look for the nearest matching character
 					f << (*z2).second << (*z2).second;
 				else f << (*z1).second << (*z1).second;
 			}
