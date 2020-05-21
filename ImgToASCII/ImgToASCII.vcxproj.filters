@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DIctionary.h">
+    <ClInclude Include="Dictionary.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
