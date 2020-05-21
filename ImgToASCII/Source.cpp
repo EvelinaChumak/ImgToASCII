@@ -6,25 +6,22 @@ using namespace cv;
 using namespace std;
 
 
-int main()
+int main(int argc, char *argv[])
 {
-	
+	if (argc < 2)
+	{ 
+		cout << "Not enought arguments";
+		return 0;
+	}
 	ofstream f("text.txt");
 
 	FullDict();
 	string s;
 
-	int white_balance;
-	int scale;
-	cout << "Enter image title: ";
-	cin >> s;
-	cout << "Enter how many times to reduce the image: ";
-	cin >> scale;
-	cout << "Enter white balance from 0 to 255: ";
-	cin >> white_balance;
+	int white_balance = stoi(argv[3]);
+	int scale = stoi(argv[2]);
 	Mat image;
-	image = imread(s, CV_LOAD_IMAGE_GRAYSCALE);					//read image as grayscale
-
+	image = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);					//read image as grayscale
 	if (!image.data)                           
 		cout << "Could not open or find the image" << endl;
 	else
@@ -70,6 +67,5 @@ int main()
 		cout << "Open text.txt" << endl;
 	}
 	f.close();
-	system("pause");
 	return 0;
 }
