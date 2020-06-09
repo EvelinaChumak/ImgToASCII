@@ -9,11 +9,11 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	if (argc < 2)
-	{ 
+	{
 		cout << "Not enought arguments";
 		return 0;
 	}
-	ofstream f("text.txt");
+	ofstream f(argv[4], ios_base::out);
 
 	FullDict();
 	string s;
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 			}
 			f << endl;
 		}
-		cout << "Open text.txt" << endl;
+		cout << "Open " << argv[4] << endl;
 	}
 	f.close();
 	return 0;
